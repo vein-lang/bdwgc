@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest, macos-latest-xlarge ]
+        os: [ macos-latest, ubuntu-latest, windows-latest, macos-12 ]
         c_compiler: [ cl, clang, gcc ]
         cxx_compiler: [ cl, clang++, g++ ]
         enable_cplusplus: [ off, on ]
@@ -36,9 +36,9 @@ jobs:
           c_compiler: cl
         - os: macos-latest
           c_compiler: gcc
-        - os: macos-latest-xlarge
+        - os: macos-12
           c_compiler: cl
-        - os: macos-latest-xlarge
+        - os: macos-12
           c_compiler: gcc
         - os: ubuntu-latest
           c_compiler: cl
@@ -58,7 +58,7 @@ jobs:
           cxx_compiler: clang++
         - os: macos-latest
           enable_cplusplus: off
-        - os: macos-latest-xlarge
+        - os: macos-12
           enable_cplusplus: off
         - os: ubuntu-latest
           enable_cplusplus: off
