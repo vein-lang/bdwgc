@@ -1,5 +1,5 @@
 # This workflow is for CMake-based build/test running on multiple platforms.
-name: cmake build
+name: build release
 
 on:
   push:
@@ -19,10 +19,10 @@ jobs:
       fail-fast: false
 
       matrix:
-        os: [ macos-latest, ubuntu-latest, windows-latest ]
+        os: [ macos-latest, ubuntu-latest, windows-latest, macos-latest-xlarge ]
         c_compiler: [ cl, clang, gcc ]
         cxx_compiler: [ cl, clang++, g++ ]
-        enable_cplusplus: [ off ]
+        enable_cplusplus: [ off, on ]
         build_type: [ Release ]
         disable_gc_debug: [ off ]
         gc_assertions: [ on ]
@@ -35,6 +35,10 @@ jobs:
         - os: macos-latest
           c_compiler: cl
         - os: macos-latest
+          c_compiler: gcc
+        - os: macos-latest-xlarge
+          c_compiler: cl
+        - os: macos-latest-xlarge
           c_compiler: gcc
         - os: ubuntu-latest
           c_compiler: cl
@@ -53,6 +57,8 @@ jobs:
         - c_compiler: gcc
           cxx_compiler: clang++
         - os: macos-latest
+          enable_cplusplus: off
+        - os: macos-latest-xlarge
           enable_cplusplus: off
         - os: ubuntu-latest
           enable_cplusplus: off
@@ -118,8 +124,8 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }} --verbose --parallel 8
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v2.2.3
+      uses: actions/upload-artifact@v4.3.3
       with:
-        name: ${{ matrix.os }}-${{ matrix.c_compiler }}-${{ matrix.build_type }}-build
+        name: ${{ matrix.os }}-${{ matrix.c_compiler }}-${{ matrix.cxx_compiler }}-${{ matrix.build_type }}-build
         path: ${{ steps.strings.outputs.build-output-dir }}
         if-no-files-found: error
