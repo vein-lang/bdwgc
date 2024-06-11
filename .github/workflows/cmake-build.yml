@@ -117,10 +117,3 @@ jobs:
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       # Execute tests defined by the CMake configuration.
       run: ctest --build-config ${{ matrix.build_type }} --verbose --parallel 8
-
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2.2.3
-      with:
-        name: ${{ matrix.target }}-build
-        path: ${{ steps.strings.outputs.build-output-dir }}
-        if-no-files-found: error
